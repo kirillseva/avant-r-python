@@ -15,3 +15,5 @@ RUN mkdir -p /dev
 # xgboost
 RUN cd /dev && git clone https://github.com/dmlc/xgboost.git \
     && cd xgboost && ./build.sh && cd python-package && python setup.py install
+
+CMD ["python"]
