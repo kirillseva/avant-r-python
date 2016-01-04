@@ -1,0 +1,71 @@
+The following instructions worked for my machine and are copied here essentially from memory.  
+This information was primary gathered from the internet and/or in discussions with 
+various Avantees.
+
+# The process in a nut-shell.
+# 1. download the git hub repo for xgboost somewhere
+#    on your local machine.
+# 2. get gcc49
+# 3. build xgboost
+# 4. also install scikit-learn
+
+# So … 1. is left to you.
+#
+# FYI, the instructions at dmlc/xgboost
+# ask you to use `pip install xgboost`.
+# This did not work for me because I could not
+# find a way to specify a specific version of 
+# gcc (gcc49 in this case) to use with pip.
+# BTW, this did not work also:
+# env CC=/usr/bin/gcc-4.9
+
+
+# 2. get and install gcc49
+# To install gcc, you need to
+# first, ensure that you have given yourself
+# permissions on key folders
+
+# here’s where I needed them.
+# copy the same commands for wherever else you
+# may get the `permission denied` error
+
+sudo chown -R `whoami`:admin /usr/local/bin
+sudo chown -R `whoami`:admin /usr/local/share
+brew install gcc49
+
+
+# 3. Build xgboost.
+#
+# Edit Makefile
+# and point to your newly installed
+# gcc-4.9 and g++-4.9 explicitly
+# Here’s how I did mine.
+#
+# Original Version
+#export CC  = $(if $(shell which gcc-5),gcc-5,gcc)
+#export CXX = $(if $(shell which g++-5),g++-5,g++)
+#
+# My edit
+#export CC  = /usr/local/bin/gcc-4.9
+#export CXX = /usr/local/bin/g++-4.9
+#
+# Then
+
+./build.sh
+
+# go into python directory and
+python setup.py install
+
+# may need to add yourself as admin on /Library/python folder
+# as well (see above)
+
+
+# 4. Also needs scikit-learn
+#
+# Almost there.  xgboost wants ‘scikit-learn’
+# Fortunately, pip works in this case.
+
+pip install scikit-learn
+
+Happy boosting.
+Feel free to edit this file as needed to keep these instructions up to date.
